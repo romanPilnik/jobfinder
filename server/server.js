@@ -4,6 +4,8 @@ const cors = require("cors");
 const { clerkMiddleware } = require("@clerk/express");
 const { requireAuth, getAuth } = require("@clerk/express");
 require("dotenv").config();
+const usersRouter = require("./routes/users");
+const jobsRouter = require("./routes/jobs");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -11,6 +13,8 @@ const PORT = process.env.PORT || 5000;
 app.use(express.json());
 app.use(cors());
 app.use(clerkMiddleware({}));
+app.use("/api/users", usersRouter);
+app.use("/api/jobs", jobsRouter);
 
 mongoose
   .connect(process.env.MONGODB_URI)
