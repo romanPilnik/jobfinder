@@ -2,9 +2,9 @@ const express = require("express");
 const router = express.Router();
 const { requireAuth, getAuth } = require("@clerk/express");
 const Job = require("../models/Job");
-const { searchJobs } = require("../services/jobSearchService");
+const { searchJobs } = require("../services/jobs.service");
 
-router.get("/search", requireAuth(), async (req, res) => {
+router.get("/search", async (req, res) => {
   try {
     const { title, location, experience_level, job_type } = req.query;
 
@@ -15,7 +15,7 @@ router.get("/search", requireAuth(), async (req, res) => {
       job_type
     );
 
-    res.json({ success: true, data: results });
+    res.json({ success: true, data: results.data });
   } catch (error) {
     console.error("Error searching jobs:", error);
     res.status(500).json({ error: "Failed to search jobs" });

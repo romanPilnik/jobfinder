@@ -3,19 +3,19 @@ const axios = require("axios");
 const searchJobs = async (title, location, experience_level, job_type) => {
   const options = {
     method: "GET",
-    url: "https://jsearch.p.rapidapi.com/search",
+    url: "https://real-time-glassdoor-data.p.rapidapi.com/job-search",
     params: {
-      query: `${title} jobs in ${location}`,
-      page: "1",
-      num_pages: "1",
-      country: "il",
-      date_posted: "month",
-      job_requirements: experience_level || "",
-      employment_types: job_type || "",
+      query: title,
+      location: location,
+      domain: "www.glassdoor.com",
+      min_company_rating: "ANY",
+      easy_apply_only: false,
+      remote_only: false,
+      limit: 100,
     },
     headers: {
-      "x-rapidapi-key": process.env.RAPIDAPI_KEY,
-      "x-rapidapi-host": "jsearch.p.rapidapi.com",
+      "x-rapidapi-key": process.env.X_RAPIDAPI_KEY,
+      "x-rapidapi-host": "real-time-glassdoor-data.p.rapidapi.com",
     },
   };
 
@@ -23,7 +23,7 @@ const searchJobs = async (title, location, experience_level, job_type) => {
     const { data } = await axios.request(options);
     return data;
   } catch (error) {
-    console.error("JSearch API Error:", error);
+    console.error("Glassdoor API Error:", error);
     throw error;
   }
 };
